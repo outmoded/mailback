@@ -13,12 +13,15 @@
     "node": "4.x.x"
   },
   "dependencies": {
-    "smtp-server": "1.x.x",
+    "boom": "2.x.x",
     "hoek": "2.x.x",
-    "boom": "2.x.x"
+    "joi": "6.x.x",
+    "mailparser": "0.5.x",
+    "smtp-server": "1.x.x"
   },
   "devDependencies": {
     "code": "1.x.x",
+    "emailjs": "0.3.x",
     "lab": "5.x.x"
   },
   "scripts": {

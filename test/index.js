@@ -1,29 +1,31 @@
+'use strict';
+
 // Load modules
 
-var Code = require('code');
-var Email = require('emailjs');
-var Lab = require('lab');
-var Mailback = require('..');
+const Code = require('code');
+const Email = require('emailjs');
+const Lab = require('lab');
+const Mailback = require('..');
 
 
 // Declare internals
 
-var internals = {};
+const internals = {};
 
 
 // Test shortcuts
 
-var lab = exports.lab = Lab.script();
-var describe = lab.describe;
-var it = lab.it;
-var expect = Code.expect;
+const lab = exports.lab = Lab.script();
+const describe = lab.describe;
+const it = lab.it;
+const expect = Code.expect;
 
 
-describe('Server', function () {
+describe('Server', () => {
 
-    it('calls back on new message', function (done) {
+    it('calls back on new message', (done) => {
 
-        var onMessage = function (err, message) {
+        const onMessage = (err, message) => {
 
             expect(message.from).to.deep.equal([{ address: 'test@example.com', name: 'test' }]);
             expect(message.text).to.equal('I got something to tell you\n\n');
@@ -31,19 +33,19 @@ describe('Server', function () {
             expect(message.to).to.deep.equal([{ address: 'someone@example.com', name: 'someone' }]);
         };
 
-        var server = new Mailback.Server({ onMessage: onMessage });
-        server.start(function () {
+        const server = new Mailback.Server({ onMessage: onMessage });
+        server.start(() => {
 
-            var headers = {
+            const headers = {
                 from: 'test <test@example.com>',
                 to: 'someone <someone@example.com>',
                 subject: 'hello',
                 text: 'I got something to tell you'
             };
 
-            var message = Email.message.create(headers);
-            var mailer = Email.server.connect(server.info);
-            mailer.send(message, function (err, output) {
+            const message = Email.message.create(headers);
+            const mailer = Email.server.connect(server.info);
+            mailer.send(message, (err, output) => {
 
                 expect(err).to.not.exist();
                 server.stop(done);
@@ -51,9 +53,9 @@ describe('Server', function () {
         });
     });
 
-    it('overrides defaults', function (done) {
+    it('overrides defaults', (done) => {
 
-        var onMessage = function (err, message) {
+        const onMessage = (err, message) => {
 
             expect(message.from).to.deep.equal([{ address: 'test@example.com', name: 'test' }]);
             expect(message.text).to.equal('I got something to tell you\n\n');
@@ -61,7 +63,7 @@ describe('Server', function () {
             expect(message.to).to.deep.equal([{ address: 'someone@example.com', name: 'someone' }]);
         };
 
-        var server = new Mailback.Server({
+        const server = new Mailback.Server({
             onMessage: onMessage,
             smtp: {
                 logger: false,
@@ -69,18 +71,18 @@ describe('Server', function () {
             }
         });
 
-        server.start(function () {
+        server.start(() => {
 
-            var headers = {
+            const headers = {
                 from: 'test <test@example.com>',
                 to: 'someone <someone@example.com>',
                 subject: 'hello',
                 text: 'I got something to tell you'
             };
 
-            var message = Email.message.create(headers);
-            var mailer = Email.server.connect(server.info);
-            mailer.send(message, function (err, output) {
+            const message = Email.message.create(headers);
+            const mailer = Email.server.connect(server.info);
+            mailer.send(message, (err, output) => {
 
                 expect(err).to.not.exist();
                 server.stop(done);
@@ -88,11 +90,11 @@ describe('Server', function () {
         });
     });
 
-    it('allows start and stop without callbacks', function (done) {
+    it('allows start and stop without callbacks', (done) => {
 
-        var onMessage = function (err, message) { };
+        const onMessage = (err, message) => { };
 
-        var server = new Mailback.Server({ onMessage: onMessage });
+        const server = new Mailback.Server({ onMessage: onMessage });
         server.start();
         server.stop();
         done();

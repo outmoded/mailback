@@ -27,6 +27,7 @@ describe('Server', () => {
 
         const onMessage = (err, message) => {
 
+            expect(err).to.not.exist();
             expect(message.from).to.equal([{ address: 'test@example.com', name: 'test' }]);
             expect(message.text).to.equal('I got something to tell you\n\n\n');
             expect(message.subject).to.equal('hello');
@@ -57,6 +58,7 @@ describe('Server', () => {
 
         const onMessage = (err, message) => {
 
+            expect(err).to.not.exist();
             expect(message.from).to.equal([{ address: 'test@example.com', name: 'test' }]);
             expect(message.text).to.equal('I got something to tell you\n\n\n');
             expect(message.subject).to.equal('hello');
@@ -94,6 +96,7 @@ describe('Server', () => {
 
         const onMessage = (err, message) => { };
 
+        expect(err).to.not.exist();
         const server = new Mailback.Server({ onMessage: onMessage });
         server.start();
         server.stop();

@@ -27,10 +27,10 @@ describe('Server', () => {
 
         const onMessage = (err, message) => {
 
-            expect(message.from).to.deep.equal([{ address: 'test@example.com', name: 'test' }]);
-            expect(message.text).to.equal('I got something to tell you\n\n');
+            expect(message.from).to.equal([{ address: 'test@example.com', name: 'test' }]);
+            expect(message.text).to.equal('I got something to tell you\n\n\n');
             expect(message.subject).to.equal('hello');
-            expect(message.to).to.deep.equal([{ address: 'someone@example.com', name: 'someone' }]);
+            expect(message.to).to.equal([{ address: 'someone@example.com', name: 'someone' }]);
         };
 
         const server = new Mailback.Server({ onMessage: onMessage });
@@ -57,10 +57,10 @@ describe('Server', () => {
 
         const onMessage = (err, message) => {
 
-            expect(message.from).to.deep.equal([{ address: 'test@example.com', name: 'test' }]);
-            expect(message.text).to.equal('I got something to tell you\n\n');
+            expect(message.from).to.equal([{ address: 'test@example.com', name: 'test' }]);
+            expect(message.text).to.equal('I got something to tell you\n\n\n');
             expect(message.subject).to.equal('hello');
-            expect(message.to).to.deep.equal([{ address: 'someone@example.com', name: 'someone' }]);
+            expect(message.to).to.equal([{ address: 'someone@example.com', name: 'someone' }]);
         };
 
         const server = new Mailback.Server({

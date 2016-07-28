@@ -94,9 +94,11 @@ describe('Server', () => {
 
     it('allows start and stop without callbacks', (done) => {
 
-        const onMessage = (err, message) => { };
+        const onMessage = (err, message) => {
 
-        expect(err).to.not.exist();
+            expect(err).to.not.exist();
+        };
+
         const server = new Mailback.Server({ onMessage: onMessage });
         server.start();
         server.stop();

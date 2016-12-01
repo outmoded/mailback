@@ -34,7 +34,7 @@ describe('Server', () => {
             expect(message.to).to.equal([{ address: 'someone@example.com', name: 'someone' }]);
         };
 
-        const server = new Mailback.Server({ onMessage: onMessage });
+        const server = new Mailback.Server({ onMessage });
         server.start(() => {
 
             const headers = {
@@ -66,7 +66,7 @@ describe('Server', () => {
         };
 
         const server = new Mailback.Server({
-            onMessage: onMessage,
+            onMessage,
             smtp: {
                 logger: false,
                 disabledCommands: ['AUTH']
@@ -99,7 +99,7 @@ describe('Server', () => {
             expect(err).to.not.exist();
         };
 
-        const server = new Mailback.Server({ onMessage: onMessage });
+        const server = new Mailback.Server({ onMessage });
         server.start();
         server.stop();
         done();

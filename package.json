@@ -1,7 +1,7 @@
 {
   "name": "mailback",
   "description": "SMTP Server with callback for testing",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "repository": "git://github.com/hueniverse/mailback",
   "main": "lib/index.js",
   "keywords": [
@@ -10,18 +10,19 @@
     "test"
   ],
   "engines": {
-    "node": ">=4.x.x"
+    "node": ">=8.x.x"
   },
   "dependencies": {
     "hoek": "4.x.x",
     "joi": "10.x.x",
-    "mailparser": "0.6.x",
-    "smtp-server": "1.x.x"
+    "mailparser": "2.x.x",
+    "smtp-server": "3.x.x",
+    "wreck": "12.x.x"
   },
   "devDependencies": {
     "code": "4.x.x",
-    "emailjs": "1.x.x",
-    "lab": "11.x.x"
+    "lab": "14.x.x",
+    "nodemailer": "4.x.x"
   },
   "scripts": {
     "test": "lab -a code -t 100 -L",

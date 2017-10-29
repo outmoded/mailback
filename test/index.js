@@ -17,15 +17,13 @@ const internals = {};
 
 // Test shortcuts
 
-const lab = exports.lab = Lab.script();
-const describe = lab.describe;
-const it = lab.it;
+const { describe, it } = exports.lab = Lab.script();
 const expect = Code.expect;
 
 
 describe('Server', () => {
 
-    it('calls back on new message', (done) => {
+    it('calls back on new message', async () => {
 
         const onMessage = (err, message) => {
 
@@ -37,17 +35,12 @@ describe('Server', () => {
         };
 
         const server = new Mailback.Server({ onMessage });
-        server.start(() => {
-
-            internals.email(server, (err) => {
-
-                expect(err).to.not.exist();
-                server.stop(done);
-            });
-        });
+        await server.start();
+        await internals.email(server);
+        await server.stop();
     });
 
-    it('overrides defaults', (done) => {
+    it('overrides defaults', async () => {
 
         const onMessage = (err, message) => {
 
@@ -66,30 +59,12 @@ describe('Server', () => {
             }
         });
 
-        server.start(() => {
-
-            internals.email(server, (err) => {
-
-                expect(err).to.not.exist();
-                server.stop(done);
-            });
-        });
+        await server.start();
+        await internals.email(server);
+        await server.stop();
     });
 
-    it('allows start and stop without callbacks', (done) => {
-
-        const onMessage = (err, message) => {
-
-            expect(err).to.not.exist();
-        };
-
-        const server = new Mailback.Server({ onMessage });
-        server.start();
-        server.stop();
-        done();
-    });
-
-    it('errors on stream error', { parallel: false }, (done) => {
+    it('errors on stream error', async () => {
 
         const orig = Wreck.read;
         Wreck.read = (stream, options, next) => {
@@ -104,23 +79,18 @@ describe('Server', () => {
         };
 
         const server = new Mailback.Server({ onMessage });
-        server.start(() => {
-
-            internals.email(server, (err) => {
-
-                expect(err).to.not.exist();
-                server.stop(done);
-            });
-        });
+        await server.start();
+        await internals.email(server);
+        await server.stop();
     });
 
-    it('errors on parser error', { parallel: false }, (done) => {
+    it('errors on parser error', async () => {
 
         const orig = MailParser.simpleParser;
-        MailParser.simpleParser = (message, next) => {
+        MailParser.simpleParser = () => {
 
             MailParser.simpleParser = orig;
-            return next(new Error());
+            return Promise.reject(new Error());
         };
 
         const onMessage = (err, message) => {
@@ -129,19 +99,14 @@ describe('Server', () => {
         };
 
         const server = new Mailback.Server({ onMessage });
-        server.start(() => {
-
-            internals.email(server, (err) => {
-
-                expect(err).to.not.exist();
-                server.stop(done);
-            });
-        });
+        await server.start();
+        await internals.email(server);
+        await server.stop();
     });
 });
 
 
-internals.email = function (server, callback) {
+internals.email = function (server) {
 
     const mail = {
         from: 'test <test@example.com>',
@@ -151,5 +116,5 @@ internals.email = function (server, callback) {
     };
 
     const transporter = Nodemailer.createTransport({ host: server.info.host, port: server.info.port, secure: false, ignoreTLS: true });
-    return transporter.sendMail(mail, callback);
+    return transporter.sendMail(mail);
 };

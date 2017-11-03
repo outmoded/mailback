@@ -10,7 +10,7 @@
     "test"
   ],
   "engines": {
-    "node": ">=8.8.0"
+    "node": ">=8.9.0"
   },
   "dependencies": {
     "hoek": "5.x.x",
